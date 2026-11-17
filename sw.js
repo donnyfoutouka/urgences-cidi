@@ -1,6 +1,6 @@
 // Fonctionnement hors connexion : met l'application en cache sur le téléphone.
 // Changer VERSION à chaque mise à jour de index.html pour que les téléphones récupèrent la nouvelle version.
-const VERSION = 'urgences-cidi-v1';
+const VERSION = 'urgences-cidi-v2';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png', './icons/favicon-32.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
