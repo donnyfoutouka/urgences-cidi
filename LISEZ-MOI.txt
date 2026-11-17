@@ -1,0 +1,21 @@
+APPLICATION « URGENCES CIDI » – VERSION INSTALLABLE SUR TÉLÉPHONE ET TABLETTE
+
+1. METTRE EN LIGNE (une seule fois)
+   Déposer TOUT le contenu de ce dossier (index.html, manifest.webmanifest, sw.js et le dossier icons)
+   sur un hébergement web en HTTPS : site ou intranet CIDI (demander au prestataire informatique),
+   ou un hébergement gratuit de site statique (GitHub Pages, Netlify…).
+   L'application ne contient aucune donnée : les évaluations restent sur chaque téléphone.
+
+2. INSTALLER L'ICÔNE SUR LE TÉLÉPHONE
+   iPhone / iPad : ouvrir l'adresse dans Safari > bouton Partager > « Sur l'écran d'accueil » > Ajouter.
+   Android : ouvrir l'adresse dans Chrome > menu ⋮ > « Ajouter à l'écran d'accueil » (ou « Installer l'application »).
+   L'icône « Urgences CIDI » apparaît ; l'application s'ouvre en plein écran et fonctionne ensuite sans réseau.
+
+3. METTRE À JOUR L'APPLICATION
+   Remplacer index.html sur l'hébergement et changer la ligne VERSION dans sw.js (ex. v1 -> v2).
+   Les téléphones récupèrent la nouvelle version à la prochaine ouverture avec du réseau.
+
+4. SAUVEGARDES
+   Les évaluations sont stockées dans l'application de chaque téléphone. Faire régulièrement
+   « Historique > Sauvegarder l'historique » et ranger le fichier sur le réseau CIDI ou OneDrive.
+   Supprimer l'icône de l'écran d'accueil efface les évaluations non sauvegardées.
