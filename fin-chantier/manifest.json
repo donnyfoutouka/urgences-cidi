@@ -1,0 +1,16 @@
+{
+  "name": "CIDI – Fin de chantier",
+  "short_name": "Fin chantier",
+  "description": "Fiche de fin de chantier pose / dépose CIDI",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1F1E41",
+  "theme_color": "#1F1E41",
+  "lang": "fr",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

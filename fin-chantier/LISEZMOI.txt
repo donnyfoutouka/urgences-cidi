@@ -1,0 +1,25 @@
+CIDI - APPLICATION DE FIN DE CHANTIER (processus R5 Pose)
+==========================================================
+
+ADRESSE DE L'APPLICATION
+   https://donnyfoutouka.github.io/urgences-cidi/fin-chantier/
+   (dossier fin-chantier du dépôt GitHub urgences-cidi)
+
+INSTALLATION SUR LES TÉLÉPHONES DES POSEURS
+- iPhone (Safari) : ouvrir l'adresse > Partager > "Sur l'écran d'accueil".
+- Android (Chrome) : ouvrir l'adresse > menu ⋮ > "Installer l'application".
+- Ouvrir l'appli une première fois avec du réseau : elle fonctionne ensuite
+  hors connexion.
+- Dans "Réglages" : saisir le nom du poseur et l'adresse e-mail de réception
+  des rapports.
+
+METTRE À JOUR L'APPLICATION
+- Remplacer les fichiers modifiés dans le dossier fin-chantier du dépôt, puis dans sw.js, changer
+  VERSION = 'fin-chantier-v3' en 'fin-chantier-v4' (v5, v6…).
+
+À SAVOIR
+- Les fiches sont stockées sur chaque téléphone. Le rapport PDF envoyé par
+  e-mail est la trace officielle ; l'export Excel (Réglages) permet de
+  consolider l'historique de plusieurs téléphones.
+- Ne pas supprimer les données du navigateur sur les téléphones avant d'avoir
+  exporté l'historique.

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CIDI – Fin de chantier</title>
+<meta name="theme-color" content="#1F1E41">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fin chantier">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+@font-face{font-family:Barlow;font-weight:300;src:url(fonts/barlow-latin-300-normal.woff2) format('woff2')}
+@font-face{font-family:Barlow;font-weight:400;src:url(fonts/barlow-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:Barlow;font-weight:600;src:url(fonts/barlow-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:Barlow;font-weight:700;src:url(fonts/barlow-latin-700-normal.woff2) format('woff2')}
+:root{
+  --nuit:#1F1E41;--marine:#2F3B80;--cyan:#5BB5CC;--bleu:#4098B5;--petrole:#15547F;
+  --glace:#D5EDF7;--brume:#E5F3FB;--gris:#99BDD2;--canard:#037A98;
+  --ok:#1E8E5A;--nok:#C0392B;--na:#7A8597;--warn:#B9770E;
+  --fond:#F4F8FB;--texte:#1F1E41;--sub:#56607A;--bord:#D3DEE8;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--fond);color:var(--texte);font-family:Barlow,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-size:16px}
+header{position:sticky;top:0;z-index:20;background:var(--nuit);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:12px}
+header .logo{font-weight:700;letter-spacing:.08em;font-size:22px}
+header .logo span{color:var(--cyan)}
+header .titre{font-weight:300;font-size:17px;flex:1}
+header .net{font-size:12px;padding:3px 8px;border-radius:10px;background:#ffffff22;white-space:nowrap}
+header .net.off{background:var(--warn)}
+main{padding:12px 12px 96px;max-width:760px;margin:0 auto}
+.view{display:none}.view.on{display:block}
+nav.bas{position:fixed;bottom:0;left:0;right:0;z-index:30;background:#fff;border-top:1px solid var(--bord);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+nav.bas button{flex:1;border:0;background:none;padding:8px 2px 9px;font:inherit;font-size:12px;color:var(--sub);display:flex;flex-direction:column;align-items:center;gap:2px}
+nav.bas button svg{width:24px;height:24px}
+nav.bas button.on{color:var(--marine);font-weight:600}
+.carte{background:#fff;border:1px solid var(--bord);border-radius:12px;padding:14px;margin-bottom:12px}
+.carte h2{margin:0 0 10px;font-size:17px;font-weight:600;color:var(--marine);display:flex;align-items:center;gap:8px}
+.carte h2 .n{background:var(--marine);color:#fff;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+.carte h3{margin:14px 0 6px;font-size:14px;font-weight:600;color:var(--petrole);text-transform:uppercase;letter-spacing:.04em}
+label.l{display:block;font-size:14px;color:var(--sub);margin:10px 0 4px}
+label.l b{color:var(--nok);font-weight:600}
+input[type=text],input[type=number],input[type=date],input[type=email],textarea,select{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--bord);border-radius:8px;background:#fff;color:var(--texte)}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid var(--cyan);border-color:var(--cyan)}
+.grille2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.grille3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 8px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:90px;padding:11px 8px;border:1.5px solid var(--bord);background:#fff;border-radius:8px;font:inherit;font-size:15px;color:var(--texte)}
+.seg button.on{border-color:var(--marine);background:var(--marine);color:#fff;font-weight:600}
+.seg.vert button.on{background:var(--ok);border-color:var(--ok)}
+.seg.rouge button.on{background:var(--nok);border-color:var(--nok)}
+.ctrl{border-top:1px solid var(--brume);padding:9px 0}
+.ctrl:first-of-type{border-top:0}
+.ctrl .q{font-size:15px;margin-bottom:7px}
+.ctrl .r{display:flex;gap:6px}
+.ctrl .r button{flex:1;padding:11px 4px;font-size:15px!important;border:1.5px solid var(--bord);background:#fff;border-radius:8px;font:inherit;font-size:14px;font-weight:600;color:var(--sub)}
+.ctrl .r button.ok.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.ctrl .r button.nok.on{background:var(--nok);border-color:var(--nok);color:#fff}
+.ctrl .r button.na.on{background:var(--na);border-color:var(--na);color:#fff}
+.ctrl input{margin-top:7px;font-size:14px;padding:8px 10px}
+.ctrl.manque{background:#FDEDEC;border-radius:8px;padding:9px 8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:13px 16px;font:inherit;font-size:16px;font-weight:600;background:var(--marine);color:#fff;cursor:pointer}
+.btn.sec{background:var(--brume);color:var(--marine)}
+.btn.cyan{background:var(--canard)}
+.btn.rouge{background:#fff;color:var(--nok);border:1.5px solid var(--nok)}
+.btn.plein{width:100%}
+.btn:disabled{opacity:.5}
+.btn svg{width:20px;height:20px}
+.ligne-btn{display:flex;gap:8px;flex-wrap:wrap}
+.ligne-btn .btn{flex:1}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.photos .ph{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:var(--brume)}
+.photos .ph img{width:100%;height:100%;object-fit:cover}
+.photos .ph button{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:#000a;color:#fff;font-size:16px;line-height:1}
+.sig{border:1.5px dashed var(--gris);border-radius:10px;background:#fff;position:relative;touch-action:none}
+.sig canvas{display:block;width:100%;height:170px;touch-action:none}
+.sig .ph-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--gris);pointer-events:none;font-size:15px}
+.sig-outils{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:13px;color:var(--sub)}
+.lien{background:none;border:0;color:var(--canard);font:inherit;font-size:14px;font-weight:600;padding:4px}
+.coche{display:flex;gap:10px;align-items:flex-start;margin:12px 0 4px;font-size:15px}
+.coche input{width:22px;height:22px;flex:none;margin:0;accent-color:var(--marine)}
+.total{margin-top:10px;background:var(--brume);border-radius:8px;padding:10px 12px;font-size:15px}
+.total b{font-size:18px;color:var(--marine)}
+.bandeau{border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:12px}
+.bandeau.info{background:var(--brume);color:var(--petrole)}
+.bandeau.warn{background:#FEF5E7;color:#7E5109}
+.recherche{display:flex;gap:8px;margin-bottom:10px}
+.filtres{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px}
+.filtres button{flex:none;border:1px solid var(--bord);background:#fff;border-radius:16px;padding:6px 12px;font:inherit;font-size:14px;color:var(--sub)}
+.filtres button.on{background:var(--nuit);border-color:var(--nuit);color:#fff}
+.item{background:#fff;border:1px solid var(--bord);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:center;cursor:pointer}
+.item .corps{flex:1;min-width:0}
+.item .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .s{font-size:13px;color:var(--sub);margin-top:2px}
+.badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.bdg{font-size:11.5px;font-weight:600;border-radius:6px;padding:2px 7px;background:var(--brume);color:var(--petrole)}
+.bdg.ok{background:#E8F6EF;color:var(--ok)}
+.bdg.nok{background:#FDEDEC;color:var(--nok)}
+.bdg.warn{background:#FEF5E7;color:var(--warn)}
+.bdg.gris{background:#EEF1F4;color:var(--na)}
+.vide{text-align:center;color:var(--sub);padding:40px 10px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border:1px solid var(--bord);border-radius:12px;padding:12px}
+.kpi .v{font-size:30px;font-weight:700;color:var(--marine);line-height:1.1}
+.kpi .lb{font-size:13px;color:var(--sub);margin-top:3px}
+.kpi .obj{font-size:12px;margin-top:6px;font-weight:600}
+.kpi.grand{grid-column:1/-1;background:var(--nuit);color:#fff;border-color:var(--nuit)}
+.kpi.grand .v{color:#fff;font-size:40px}
+.kpi.grand .lb{color:var(--glace)}
+.jauge{height:8px;background:#ffffff33;border-radius:4px;margin-top:8px;overflow:hidden}
+.jauge i{display:block;height:100%;background:var(--cyan)}
+.histo{display:flex;align-items:flex-end;gap:6px;height:170px;padding-top:10px}
+.histo .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.histo .barre{width:100%;max-width:34px;display:flex;flex-direction:column-reverse;border-radius:4px 4px 0 0;overflow:hidden}
+.histo .barre .sg{background:var(--marine)}
+.histo .barre .ns{background:var(--gris)}
+.histo .nb{font-size:11px;font-weight:600;color:var(--marine);margin-bottom:2px}
+.histo .m{font-size:10.5px;color:var(--sub);margin-top:4px}
+.legende{display:flex;gap:14px;font-size:12.5px;color:var(--sub);margin-top:8px}
+.legende i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t td,table.t th{padding:7px 6px;border-bottom:1px solid var(--brume);text-align:left}
+table.t th{color:var(--sub);font-weight:600;font-size:12.5px}
+.recap dt{font-size:13px;color:var(--sub);margin-top:8px}
+.recap dd{margin:2px 0 0;font-size:15px;white-space:pre-wrap}
+.recap img.sigimg{max-width:220px;border:1px solid var(--bord);border-radius:6px;background:#fff}
+.modal{position:fixed;inset:0;z-index:50;background:#1F1E41b3;display:none;align-items:flex-end;justify-content:center}
+.modal.on{display:flex}
+.modal .boite{background:#fff;width:100%;max-width:560px;border-radius:16px 16px 0 0;padding:20px 16px calc(16px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto}
+.modal h3{margin:0 0 8px;color:var(--marine)}
+.modal p{margin:0 0 14px;color:var(--sub);font-size:15px;line-height:1.4}
+.modal ul{margin:0 0 14px;padding-left:20px;color:var(--nok);font-size:14px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--nuit);color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;z-index:60;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%}
+.toast.on{opacity:1}
+.etat{font-size:13px;color:var(--sub);text-align:center;margin:4px 0 12px}
+.acc{border:1.5px solid var(--bord);border-radius:10px;margin-bottom:10px;overflow:hidden;background:#fff}
+.acc.ouvert{border-color:var(--marine)}
+.acc-tete{width:100%;display:flex;align-items:center;gap:12px;padding:13px 12px;border:0;background:#fff;font:inherit;text-align:left;color:var(--texte)}
+.acc.ouvert .acc-tete{background:var(--brume)}
+.acc-case{width:26px;height:26px;flex:none;border:2px solid var(--gris);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.acc.ouvert .acc-case{background:var(--marine);border-color:var(--marine)}
+.acc-titre{flex:1;font-size:17px;font-weight:600;color:var(--marine)}
+.acc-titre small{display:block;font-size:13px;font-weight:400;color:var(--sub);margin-top:1px}
+.acc-chev{width:22px;height:22px;color:var(--gris);transition:transform .2s;flex:none}
+.acc.ouvert .acc-chev{transform:rotate(180deg);color:var(--marine)}
+.acc-corps{padding:4px 12px 8px}
+.cache{display:none!important}
+@media (max-width:380px){.grille3{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">CI<span>DI</span></div>
+  <div class="titre" id="hTitre">Fin de chantier</div>
+  <div class="net" id="net">En ligne</div>
+</header>
+
+<main>
+  <!-- ============ NOUVELLE FICHE ============ -->
+  <section class="view on" id="v-fiche">
+    <div class="etat" id="etatFiche"></div>
+
+    <div class="carte">
+      <h2><span class="n">1</span>Intervention</h2>
+      <label class="l" for="f-affaire">N° d'affaire <b>*</b></label>
+      <input type="text" id="f-affaire" data-k="affaire" autocomplete="off" placeholder="Ex. AF-2026-0142">
+      <label class="l" for="f-client">Client <b>*</b></label>
+      <input type="text" id="f-client" data-k="client" placeholder="Nom du client / enseigne">
+      <label class="l" for="f-adresse">Adresse du chantier <b>*</b></label>
+      <input type="text" id="f-adresse" data-k="adresse" placeholder="N°, rue, code postal, ville">
+      <label class="l" for="f-contact">Contact client sur site</label>
+      <input type="text" id="f-contact" data-k="contact" placeholder="Nom et fonction">
+      <div class="grille2">
+        <div><label class="l" for="f-d1">Date de début <b>*</b></label><input type="date" id="f-d1" data-k="dateDebut"></div>
+        <div><label class="l" for="f-d2">Date de fin <b>*</b></label><input type="date" id="f-d2" data-k="dateFin"></div>
+      </div>
+    </div>
+
+    <div class="carte">
+      <h2><span class="n">2</span>Équipe et temps passé</h2>
+      <label class="l" for="f-poseur">Poseur responsable de la fiche <b>*</b></label>
+      <input type="text" id="f-poseur" data-k="poseurNom" placeholder="Prénom NOM">
+      <label class="l">Statut <b>*</b></label>
+      <div class="seg" id="segStatut">
+        <button type="button" data-v="interne">Interne CIDI</button>
+        <button type="button" data-v="independant">Indépendant</button>
+      </div>
+      <div id="blocSociete" class="cache">
+        <label class="l" for="f-societe">Société / raison sociale <b>*</b></label>
+        <input type="text" id="f-societe" data-k="poseurSociete">
+      </div>
+      <label class="l" for="f-equipe">Autres poseurs présents</label>
+      <input type="text" id="f-equipe" data-k="autresPoseurs" placeholder="Noms, séparés par des virgules">
+      <div class="grille2">
+        <div><label class="l" for="f-nb">Nb de poseurs <b>*</b></label><input type="number" id="f-nb" data-k="nbPoseurs" min="1" step="1" inputmode="numeric"></div>
+        <div><label class="l" for="f-hs">Heures sur site / pers. <b>*</b></label><input type="number" id="f-hs" data-k="heuresSite" min="0" step="0.25" inputmode="decimal"></div>
+      </div>
+      <div class="total">Temps total passé : <b id="totalH">0 h</b></div>
+    </div>
+
+    <div class="carte">
+      <h2><span class="n">3</span>Opérations et points de contrôle</h2>
+      <div id="zoneCtrl"></div>
+    </div>
+
+    <div class="carte">
+      <h2><span class="n">4</span>Déchets de chantier</h2>
+      <label class="l">Les déchets ont-ils été rapportés ? <b>*</b></label>
+      <div class="seg" id="segDechets">
+        <button type="button" data-v="oui">Oui</button>
+        <button type="button" data-v="non">Non</button>
+        <button type="button" data-v="aucun">Pas de déchets</button>
+      </div>
+      <div id="blocDechets" class="cache">
+        <label class="l" for="f-dechets">Pourquoi ? Que sont devenus les déchets ? <b>*</b></label>
+        <input type="text" id="f-dechets" data-k="dechetsComment" placeholder="Ex. laissés dans la benne du client avec son accord">
+      </div>
+    </div>
+
+    <div class="carte">
+      <h2><span class="n">5</span>Réception et réserves</h2>
+      <label class="l">Réception du chantier <b>*</b></label>
+      <div class="seg" id="segRecep">
+        <button type="button" data-v="sans">Sans réserve</button>
+        <button type="button" data-v="avec">Avec réserves</button>
+      </div>
+      <div id="blocReserves" class="cache">
+        <label class="l" for="f-reserves">Réserves <b>*</b></label>
+        <textarea id="f-reserves" data-k="reserves" placeholder="Décrivez chaque réserve : quoi, où, action prévue…"></textarea>
+      </div>
+      <label class="l" for="f-obs">Observations (facultatif)</label>
+      <textarea id="f-obs" data-k="observations" style="min-height:60px" placeholder="Remarques, difficultés rencontrées, besoins…"></textarea>
+    </div>
+
+    <div class="carte">
+      <h2><span class="n">6</span>Photos</h2>
+      <div class="ligne-btn">
+        <label class="btn sec" style="flex:1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          Prendre une photo
+          <input type="file" accept="image/*" capture="environment" id="inPhotoCam" class="cache">
+        </label>
+        <label class="btn sec" style="flex:1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m3 16 5-5 5 5 3-3 5 5"/></svg>
+          Galerie
+          <input type="file" accept="image/*" multiple id="inPhotoGal" class="cache">
+        </label>
+      </div>
+      <div class="photos" id="photos"></div>
+    </div>
+
+    <div class="carte">
+      <h2><span class="n">7</span>Signatures</h2>
+      <h3>Poseur</h3>
+      <div class="sig" id="sigPoseurBox"><canvas id="sigPoseur"></canvas><div class="ph-txt">Signez ici avec le doigt</div></div>
+      <div class="sig-outils"><span id="sigPoseurNom">—</span><button class="lien" type="button" data-clear="sigPoseur">Effacer</button></div>
+
+      <h3>Client</h3>
+      <label class="l" for="f-cnom">Nom du signataire client <b>*</b></label>
+      <input type="text" id="f-cnom" data-k="clientSignNom" placeholder="Prénom NOM">
+      <label class="l" for="f-cfct">Fonction</label>
+      <input type="text" id="f-cfct" data-k="clientSignFonction" placeholder="Ex. responsable de magasin">
+      <div id="blocSigClient">
+        <label class="l">Signature du client <b>*</b></label>
+        <div class="sig" id="sigClientBox"><canvas id="sigClient"></canvas><div class="ph-txt">Signature du client</div></div>
+        <div class="sig-outils"><span>Le client reconnaît la fin des travaux décrits ci-dessus.</span><button class="lien" type="button" data-clear="sigClient">Effacer</button></div>
+      </div>
+      <label class="coche"><input type="checkbox" id="f-absent"> <span>Le client n'a pas pu signer (absent ou refus)</span></label>
+      <div id="blocAbsent" class="cache">
+        <label class="l" for="f-absmotif">Motif <b>*</b></label>
+        <input type="text" id="f-absmotif" data-k="clientAbsentMotif" placeholder="Ex. personne sur site, refus de signer…">
+      </div>
+    </div>
+
+    <button class="btn plein" id="btnValider" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>
+      Valider et générer le rapport
+    </button>
+    <div class="ligne-btn" style="margin-top:10px">
+      <button class="btn rouge" id="btnAbandon" type="button">Supprimer le brouillon</button>
+    </div>
+  </section>
+
+  <!-- ============ HISTORIQUE ============ -->
+  <section class="view" id="v-histo">
+    <div class="recherche"><input type="text" id="recherche" placeholder="Rechercher : affaire, client, ville, poseur…"></div>
+    <div class="filtres" id="filtresHisto">
+      <button data-f="tout" class="on">Toutes</button>
+      <button data-f="brouillon">Brouillons</button>
+      <button data-f="nonsigne">Non signées client</button>
+      <button data-f="reserves">Avec réserves</button>
+      <button data-f="nonenvoye">Rapport non envoyé</button>
+    </div>
+    <div id="listeHisto"></div>
+  </section>
+
+  <!-- ============ INDICATEURS ============ -->
+  <section class="view" id="v-kpi">
+    <div class="filtres" id="filtresKpi">
+      <button data-p="mois" class="on">Mois en cours</button>
+      <button data-p="3m">3 derniers mois</button>
+      <button data-p="annee">Année en cours</button>
+      <button data-p="12m">12 derniers mois</button>
+      <button data-p="tout">Tout</button>
+    </div>
+    <div id="zoneKpi"></div>
+  </section>
+
+  <!-- ============ RÉGLAGES ============ -->
+  <section class="view" id="v-reglages">
+    <div class="carte">
+      <h2>Envoi du rapport</h2>
+      <label class="l" for="r-dest">Adresse(s) e-mail de destination</label>
+      <input type="email" id="r-dest" multiple placeholder="pose@cidi.fr, qse@cidi.fr">
+      <div class="bandeau info" style="margin-top:10px">Ces adresses sont proposées à chaque envoi et copiées automatiquement, prêtes à coller dans l'application de messagerie.</div>
+    </div>
+    <div class="carte">
+      <h2>Ce téléphone</h2>
+      <label class="l" for="r-nom">Nom du poseur (prérempli sur chaque fiche)</label>
+      <input type="text" id="r-nom" placeholder="Prénom NOM">
+      <label class="l">Statut</label>
+      <div class="seg" id="segRStatut">
+        <button type="button" data-v="interne">Interne CIDI</button>
+        <button type="button" data-v="independant">Indépendant</button>
+      </div>
+      <label class="l" for="r-soc">Société (si indépendant)</label>
+      <input type="text" id="r-soc">
+    </div>
+    <div class="carte">
+      <h2>Indicateur</h2>
+      <label class="l" for="r-obj">Objectif : % de fins de chantier signées par le client</label>
+      <input type="number" id="r-obj" min="0" max="100" step="1" inputmode="numeric">
+    </div>
+    <div class="carte">
+      <h2>Données</h2>
+      <p style="margin:0 0 12px;color:var(--sub);font-size:14px">Les fiches sont enregistrées uniquement sur ce téléphone. Exportez-les régulièrement pour la consolidation.</p>
+      <div class="ligne-btn">
+        <button class="btn sec" id="btnCsv" type="button">Exporter l'historique (Excel)</button>
+      </div>
+      <p class="etat" id="infoStockage" style="margin-top:12px"></p>
+    </div>
+    <p class="etat">CIDI – Processus R5 Pose · Fiche de fin de chantier · v1</p>
+  </section>
+
+  <!-- ============ DÉTAIL ============ -->
+  <section class="view" id="v-detail"></section>
+</main>
+
+<nav class="bas" id="nav">
+  <button data-v="v-fiche" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M12 10v6"/></svg>Fiche</button>
+  <button data-v="v-histo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Historique</button>
+  <button data-v="v-kpi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Indicateurs</button>
+  <button data-v="v-reglages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Réglages</button>
+</nav>
+
+<div class="modal" id="modal"><div class="boite" id="modalBoite"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="jspdf.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
